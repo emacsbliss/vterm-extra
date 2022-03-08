@@ -139,7 +139,11 @@ This is used to prepare the populate the buffer to edit commands."
          (buffer-substring-no-properties
           (vterm--get-prompt-point) (vterm--get-end-of-line))))
     (vterm-send-C-a)
-    (vterm-send-C-k)
+    ;; NOTE: C-k has been binded to something else in
+    ;; my vterm for a while, get used to it already
+    ;; so use C-p for this case instead
+    (vterm-send-C-p)
+    ;; (vterm-send-C-k)
     command))
 
 ;;;###autoload
@@ -161,6 +165,11 @@ the associated VTerm buffer where the command will be inserted."
   (interactive)
   (let ((original-buffer (get-buffer (current-buffer)))
         (command (vterm-extra--kill-and-return-current-command)))
+
+    ;; NOTE: set default-directory to home to avoid
+    ;; stuck in certain case for TRAMP
+    (setq default-directory "~")
+
     (pop-to-buffer
      (get-buffer-create (concat "*" (buffer-name) "*")))
     (vterm-extra-edit-mode)
