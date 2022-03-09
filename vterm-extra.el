@@ -161,6 +161,11 @@ the associated VTerm buffer where the command will be inserted."
   (interactive)
   (let ((original-buffer (get-buffer (current-buffer)))
         (command (vterm-extra--kill-and-return-current-command)))
+
+    ;; NOTE: set default-directory to home to avoid
+    ;; hang in TRAMP for certain case
+    (setq default-directory "~")
+
     (pop-to-buffer
      (get-buffer-create (concat "*" (buffer-name) "*")))
     (vterm-extra-edit-mode)
