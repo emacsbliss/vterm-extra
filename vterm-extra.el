@@ -169,7 +169,11 @@ the associated VTerm buffer where the command will be inserted."
     (pop-to-buffer
      (get-buffer-create (concat "*" (buffer-name) "*")))
     (vterm-extra-edit-mode)
-    (insert command)
+
+    ;; NOTE: use  as indicator to remove prompt added by
+    ;; the zsh theme so I can still have a theme
+    (insert (replace-regexp-in-string ".*" "" command))
+
     (setq-local vterm-extra-edit-associated-buffer original-buffer)))
 
 (provide 'vterm-extra)
